@@ -97,7 +97,7 @@ def jeu(win):
 	while controle != 27 :
 
 		key = controle(win, key)
-		snake = deplacement(win, score, key, snake, food)
+		snake,score = deplacement(win, score, key, snake, food)
 
 	return score
 
@@ -121,35 +121,35 @@ def deplacement(win, score, key, snake, food):
 	# Si on appui sur la flèche "à droite",
 	# la tête se déplace de 1 caractère vers la droite (colonne + 1)
 	if key == KEY_RIGHT:
-		snake.insert(0, ________, ________)
+		snake.insert(0,[snake[0][0], snake[0][1]+1])
 
 	# Sinon si on appui sur la flèche "à gauche",
 	# la tête se déplace de 1 caractère vers la gauche (colonne - 1)
 	elif key == KEY_LEFT:
-		snake.insert(0, ________, ________)
+		snake.insert(0, [snake[0][0], snake[0][1]-1])
 
 	# Sinon si on appui sur la flèche "en haut",
 	# la tête se déplace de 1 caractère vers le haut (ligne - 1)
 	elif key == KEY_UP:
-		snake.insert(0, ________, ________)
+		snake.insert(0, [snake[0][0]-1, snake[0][1]])
 
 	# Sinon si on appui sur la flèche "en bas",
 	# la tête se déplace de 1 caractère vers le bas (ligne + 1)
 	elif key == KEY_DOWN:
-		snake.insert(0, ________, ________)
+		snake.insert(0, [snake[0][0]+1, snake[0][1]])
 
 	# si la serpent arrive au bord de la fenêtre (20 lignes x 60 colonnes)
-	if snake[0][0] == __:
-		 ________________
+	if snake[0][0] == 0:
+		 snake[0][0]=win.getmaxyx()[0]-2
 
-	if snake[0][1] == __:
-		________________
+	if snake[0][1] == 0:
+		 snake[0][1]=win.getmaxyx()[1]-2
 
-	if snake[0][0] == __:
-		 ________________
+	if snake[0][0] == win.getmaxyx()[0]-1:
+		 snake[0][0]=1
 
-	if snake[0][1] == __:
-		________________
+	if snake[0][1] == win.getmaxyx()[1]-1:
+		 snake[0][1]=1
 
 
 	# Suppression du dernier anneau du serpent.
@@ -159,7 +159,7 @@ def deplacement(win, score, key, snake, food):
 
 
 	# Affichage de la tête à sa nouvelle position en bleu sur fond jaune
-	win.addstr(____, ____, ___, curses.color_pair(__))
+	win.addstr(snake[0][0], snake[0][1], '*', curses.color_pair(3))
 
 	# Effacement du dernier anneau : affichage du caractère "espace" sur fond noir
 	win.addstr(last[0], last[1], ' ', curses.color_pair(1))
